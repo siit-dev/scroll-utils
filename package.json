@@ -21,7 +21,11 @@
   "license": "GPL-3",
   "keywords": [
     "scroll",
-    "intersectionObserver"
+    "intersectionObserver",
+    "scroll direction",
+    "above the fold",
+    "scroll-margin-top",
+    "offset"
   ],
   "scripts": {
     "test": "jest",
