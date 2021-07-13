@@ -24,7 +24,7 @@
     "intersectionObserver"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "watch": "webpack --progress --watch --color",
     "format": "prettier --write \"src/**/**.{js,ts}\" \"**/*.md\"",
     "format:check": "prettier --list-different \"src/**/**.{js,ts}\" \"**/*.md\"",
@@ -70,8 +70,10 @@
     "@babel/preset-typescript": "^7.14.5",
     "@babel/register": "^7.14.5",
     "autoprefixer": "^10.3.0",
+    "babel-jest": "^27.0.6",
     "babel-loader": "^8.2.2",
     "cross-env": "^7.0.3",
+    "jest": "^27.0.6",
     "mini-css-extract-plugin": "^2.1.0",
     "postcss": "^8.3.5",
     "postcss-loader": "^6.1.1",
@@ -84,5 +86,8 @@
   "bugs": {
     "url": "https://github.com/Codingheads-Developer/scroll-utils/issues"
   },
-  "homepage": "https://github.com/Codingheads-Developer/scroll-utils"
+  "homepage": "https://github.com/Codingheads-Developer/scroll-utils",
+  "jest": {
+    "testEnvironment": "jsdom"
+  }
 }
