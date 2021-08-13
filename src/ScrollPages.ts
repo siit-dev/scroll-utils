@@ -13,7 +13,7 @@ interface ScrollPagesOptions {
   aboveTheFoldClass?: string;
 }
 
-export default class ScrollPages {
+export class ScrollPages {
   #intersectionElement: HTMLElement;
   #observer: IntersectionObserver = null;
   #isBelowTheFold: boolean = false;
@@ -77,3 +77,5 @@ export default class ScrollPages {
     this.#observer.observe(this.#intersectionElement);
   }
 }
+
+export default ScrollPages;

@@ -1,12 +1,6 @@
-import ScrollDirection from './ScrollDirection';
-import ScrollOffset, { ScrollOffsetPart } from './ScrollOffset';
-import ScrollPages from './ScrollPages';
-import { scrollWithMarginTop } from './scrollWithMarginTop';
-
-export {
-  ScrollDirection,
-  ScrollOffset,
-  ScrollOffsetPart,
-  ScrollPages,
-  scrollWithMarginTop,
-};
+export { ScrollDirection } from './ScrollDirection';
+export { ScrollOffset, ScrollOffsetPart } from './ScrollOffset';
+export { ScrollPages } from './ScrollPages';
+export { scrollWithMarginTop } from './scrollWithMarginTop';
+export { BootstrapAccordionScrollIntoView } from './BootstrapAccordionScrollIntoView';
+export { FoundationAccordionScrollIntoView } from './FoundationAccordionScrollIntoView';

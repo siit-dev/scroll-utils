@@ -124,7 +124,7 @@ export class ScrollOffsetPart {
  * Author: Bogdan Barbu
  * Team: Codingheads (codingheads.com)
  */
-export default class ScrollOffset {
+export class ScrollOffset {
   #offsetParts: ScrollOffsetPart[];
   #variables: ScrollOffsetVariable[];
   #extraEvents: string[];
@@ -270,3 +270,5 @@ export default class ScrollOffset {
     }
   };
 }
+
+export default ScrollOffset;

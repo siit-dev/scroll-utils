@@ -105,7 +105,7 @@ This is a function that allows you to scroll to an element using the correct `sc
 You can then force the correct scroll-margin-top when the `hash` of the page changes (when you click on an anchor):
 
 ```javascript
-import { scrollWithMarginTop } from '@codingheads/scroll-utils';
+import { scrollWithMarginTop, FixHashScrollPosition } from '@codingheads/scroll-utils';
 
 window.addEventListener('DOMContentLoaded', () => {
   // fix for scroll-margin-top
@@ -120,6 +120,9 @@ window.addEventListener('DOMContentLoaded', () => {
     },
     false
   );
+
+  // or use the existing class:
+  new FixHashScrollPosition();
 });
 ```
 
@@ -129,5 +132,21 @@ And in CSS you do the following (put `scroll-snap-margin-top` above `scroll-marg
 * {
   scroll-snap-margin-top: var(--full-menu-space, 0);
   scroll-margin-top: var(--full-menu-space, 0);
+}
+```
+
+## Fix the scroll position for Bootstrap or Foundation accordions
+
+When accordions open while another accordion tab above is open, the result is that some part of the new tab may be hidden. To fix this, we need to fix the scroll. You can use the `BootstrapAccordionScrollIntoView` and `FoundationAccordionScrollIntoView` classes, which in turn use the `scrollWithMarginTop` function.
+
+```javascript
+import { BootstrapAccordionScrollIntoView, FoundationAccordionScrollIntoView } from '@codingheads/scroll-utils';
+
+window.addEventListener('DOMContentLoaded', () => {
+  // for bootstrap accordion
+  new BootstrapAccordionScrollIntoView();
+
+  // for foundation accordion
+  new FoundationAccordionScrollIntoView();
 }
 ```

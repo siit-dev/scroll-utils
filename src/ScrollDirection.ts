@@ -10,7 +10,7 @@ interface ScrollDirectionOptions {
   threshold?: number;
 }
 
-export default class ScrollDirection {
+export class ScrollDirection {
   #onlyForCallback: () => boolean | null = null;
   #lastScrollTop: number = 0;
   #threshold: number = 0;
@@ -77,3 +77,5 @@ export default class ScrollDirection {
     this.#lastScrollTop = Math.max(scrollTop, 0);
   }
 }
+
+export default ScrollDirection;
