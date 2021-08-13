@@ -7,7 +7,7 @@ import { onComplete } from './utils/onReady';
 export class BootstrapAccordionScrollIntoView {
   extraOffset: number;
 
-  constructor({ extraOffset = 0 }) {
+  constructor({ extraOffset = 0 } = {}) {
     this.extraOffset = extraOffset;
     onComplete(() => setTimeout(() => this.#addEventListeners(), 1000));
   }
