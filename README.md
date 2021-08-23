@@ -135,6 +135,12 @@ And in CSS you do the following (put `scroll-snap-margin-top` above `scroll-marg
 }
 ```
 
+The `scrollWithMarginTop` function has 3 parameters:
+
+- `element` (HTMLElement) - the element to scroll to
+- `offset` (numeric, default = `0`) - the offset for the scroll position (number of pixels)
+- `onlyWhenNeeded` (boolean, default = `false`) - if this is `true`, it will not scroll if the element is already visible in the first half of the viewport
+
 ## Fix the scroll position for Bootstrap or Foundation accordions
 
 When accordions open while another accordion tab above is open, the result is that some part of the new tab may be hidden. To fix this, we need to fix the scroll. You can use the `BootstrapAccordionScrollIntoView` and `FoundationAccordionScrollIntoView` classes, which in turn use the `scrollWithMarginTop` function.

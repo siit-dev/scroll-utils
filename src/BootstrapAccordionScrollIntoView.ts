@@ -37,7 +37,7 @@ export class BootstrapAccordionScrollIntoView {
     }
 
     if (header) {
-      scrollWithMarginTop(header, this.extraOffset);
+      scrollWithMarginTop(header, this.extraOffset, true);
     }
   };
 }

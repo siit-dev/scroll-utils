@@ -17,7 +17,7 @@ export class FoundationAccordionScrollIntoView {
 
     (window as any).$(document).on('down.zf.accordion', (e, $content) => {
       const target = $content.get(0).parentNode;
-      scrollWithMarginTop(target, this.extraOffset);
+      scrollWithMarginTop(target, this.extraOffset, true);
     });
   }
 }
