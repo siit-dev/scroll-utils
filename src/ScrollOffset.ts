@@ -1,4 +1,5 @@
-import { debounce, isFunction } from 'lodash';
+import debounce from 'lodash/debounce';
+import isFunction from 'lodash/isFunction';
 
 export type ScrollOffsetPartSettings = {
   name?: string;
