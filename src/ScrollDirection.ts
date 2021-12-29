@@ -1,4 +1,5 @@
 import isFunction from 'lodash/isFunction';
+import throttle from 'lodash/throttle';
 
 /**
  * ScrollDirection - a class to handle scroll direction classes on body
@@ -11,6 +12,7 @@ interface ScrollDirectionOptions {
   onlyFor?: () => boolean | null;
   threshold?: number;
   thresholdCallback?: Function | null;
+  throttle?: null | number;
 }
 
 export class ScrollDirection {
@@ -18,6 +20,7 @@ export class ScrollDirection {
   #lastScrollTop: number = 0;
   threshold: number = 0;
   thresholdCallback?: Function | null = null;
+  #throttle?: null | number;
 
   /**
    * start an instance
@@ -27,10 +30,12 @@ export class ScrollDirection {
     onlyFor = null,
     threshold = 0,
     thresholdCallback = null,
+    throttle = 16,
   }: ScrollDirectionOptions = {}) {
     this.onlyForCallback = onlyFor;
     this.threshold = threshold;
     this.thresholdCallback = thresholdCallback;
+    this.#throttle = throttle;
     this.#lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
     this.#setupListeners();
@@ -40,11 +45,17 @@ export class ScrollDirection {
    * setup the scroll event listener
    */
   #setupListeners() {
-    window.addEventListener('scroll', () => {
+    const update = () => {
       const isValid = !this.onlyForCallback || this.onlyForCallback();
       if (!isValid) return;
       this.#determineDirection();
-    });
+    };
+    if (this.#throttle) {
+      const throttledUpdate = throttle(update, this.#throttle);
+      window.addEventListener('scroll', throttledUpdate);
+    } else {
+      window.addEventListener('scroll', update);
+    }
   }
 
   /**
