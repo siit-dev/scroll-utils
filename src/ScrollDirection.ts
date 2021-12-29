@@ -13,6 +13,7 @@ interface ScrollDirectionOptions {
   threshold?: number;
   thresholdCallback?: Function | null;
   throttle?: null | number;
+  throttleRunTrailing?: boolean;
 }
 
 export class ScrollDirection {
@@ -21,6 +22,7 @@ export class ScrollDirection {
   threshold: number = 0;
   thresholdCallback?: Function | null = null;
   #throttle?: null | number;
+  #throttleRunTrailing: boolean;
 
   /**
    * start an instance
@@ -31,11 +33,13 @@ export class ScrollDirection {
     threshold = 0,
     thresholdCallback = null,
     throttle = 16,
+    throttleRunTrailing = false,
   }: ScrollDirectionOptions = {}) {
     this.onlyForCallback = onlyFor;
     this.threshold = threshold;
     this.thresholdCallback = thresholdCallback;
     this.#throttle = throttle;
+    this.#throttleRunTrailing = throttleRunTrailing;
     this.#lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
     this.#setupListeners();
@@ -52,7 +56,7 @@ export class ScrollDirection {
     };
     if (this.#throttle) {
       const throttledUpdate = throttle(update, this.#throttle, {
-        trailing: false,
+        trailing: this.#throttleRunTrailing,
       });
       window.addEventListener('scroll', throttledUpdate);
     } else {
