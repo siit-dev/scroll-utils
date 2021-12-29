@@ -1,3 +1,4 @@
+import { ThrottleSettings } from 'lodash';
 import isFunction from 'lodash/isFunction';
 import throttle from 'lodash/throttle';
 
@@ -13,7 +14,7 @@ interface ScrollDirectionOptions {
   threshold?: number;
   thresholdCallback?: Function | null;
   throttle?: null | number;
-  throttleRunTrailing?: boolean;
+  throttleOptions?: ThrottleSettings;
 }
 
 export class ScrollDirection {
@@ -22,7 +23,7 @@ export class ScrollDirection {
   threshold: number = 0;
   thresholdCallback?: Function | null = null;
   #throttle?: null | number;
-  #throttleRunTrailing: boolean;
+  #throttleOptions: ThrottleSettings;
 
   /**
    * start an instance
@@ -33,13 +34,15 @@ export class ScrollDirection {
     threshold = 0,
     thresholdCallback = null,
     throttle = 16,
-    throttleRunTrailing = false,
+    throttleOptions = {
+      trailing: false,
+    },
   }: ScrollDirectionOptions = {}) {
     this.onlyForCallback = onlyFor;
     this.threshold = threshold;
     this.thresholdCallback = thresholdCallback;
     this.#throttle = throttle;
-    this.#throttleRunTrailing = throttleRunTrailing;
+    this.#throttleOptions = throttleOptions;
     this.#lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
     this.#setupListeners();
@@ -55,9 +58,11 @@ export class ScrollDirection {
       this.#determineDirection();
     };
     if (this.#throttle) {
-      const throttledUpdate = throttle(update, this.#throttle, {
-        trailing: this.#throttleRunTrailing,
-      });
+      const throttledUpdate = throttle(
+        update,
+        this.#throttle,
+        this.#throttleOptions || {}
+      );
       window.addEventListener('scroll', throttledUpdate);
     } else {
       window.addEventListener('scroll', update);
