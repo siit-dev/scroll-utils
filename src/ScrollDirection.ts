@@ -51,7 +51,9 @@ export class ScrollDirection {
       this.#determineDirection();
     };
     if (this.#throttle) {
-      const throttledUpdate = throttle(update, this.#throttle);
+      const throttledUpdate = throttle(update, this.#throttle, {
+        trailing: false,
+      });
       window.addEventListener('scroll', throttledUpdate);
     } else {
       window.addEventListener('scroll', update);
