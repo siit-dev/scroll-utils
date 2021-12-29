@@ -1,4 +1,3 @@
-import { ThrottleSettings } from 'lodash';
 import isFunction from 'lodash/isFunction';
 import throttle from 'lodash/throttle';
 
@@ -8,6 +7,11 @@ import throttle from 'lodash/throttle';
  * Author: Bogdan Barbu
  * Team: Codingheads (codingheads.com)
  */
+
+interface ThrottleSettings {
+  leading?: boolean | undefined;
+  trailing?: boolean | undefined;
+}
 
 interface ScrollDirectionOptions {
   onlyFor?: () => boolean | null;
