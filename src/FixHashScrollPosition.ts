@@ -10,9 +10,17 @@ export class FixHashScrollPosition {
       'hashchange',
       () => {
         const hash = window.location.hash;
-        const element = document.querySelector(hash) as HTMLElement;
-        if (element) {
-          setTimeout(() => scrollWithMarginTop(element));
+        if (!hash || hash === '#') {
+          return;
+        }
+
+        try {
+          const element = document.querySelector(hash) as HTMLElement;
+          if (element) {
+            setTimeout(() => scrollWithMarginTop(element));
+          }
+        } catch (e) {
+          console.warn(e);
         }
       },
       false
