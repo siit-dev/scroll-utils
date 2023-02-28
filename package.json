@@ -1,6 +1,6 @@
 {
   "name": "@codingheads/scroll-utils",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "A library for scroll-related utils.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
