@@ -4,7 +4,7 @@ import { onComplete } from './utils/onReady';
 /**
  * Scroll to the opened accordion tab
  */
-export class BootstrapAccordionScrollIntoView {
+export class Bootstrap4AccordionScrollIntoView {
   extraOffset: number;
 
   constructor({ extraOffset = 0 } = {}) {
@@ -14,11 +14,11 @@ export class BootstrapAccordionScrollIntoView {
 
   #addEventListeners() {
     if ('$' in window) {
-      (window as any).$(document).on('shown.bs.collapse', (e: Event) => {
+      (window as any).$(document).on('shown.collapse', (e: Event) => {
         this.#handle(e);
       });
     } else {
-      document.addEventListener('shown.bs.collapse', (e: Event) => {
+      document.addEventListener('shown.collapse', (e: Event) => {
         this.#handle(e);
       });
     }
@@ -33,7 +33,7 @@ export class BootstrapAccordionScrollIntoView {
       header = document.querySelector(`#${headerId}`);
     }
     if (!header && tabId) {
-      header = document.querySelector(`[data-bs-target="#${tabId}"]`);
+      header = document.querySelector(`[data-target="#${tabId}"]`);
     }
 
     if (header) {
@@ -42,4 +42,4 @@ export class BootstrapAccordionScrollIntoView {
   };
 }
 
-export default BootstrapAccordionScrollIntoView;
+export default Bootstrap4AccordionScrollIntoView;
