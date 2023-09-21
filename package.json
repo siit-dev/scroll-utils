@@ -1,5 +1,5 @@
 {
-  "name": "@codingheads/scroll-utils",
+  "name": "@smartimpact-it/scroll-utils",
   "version": "1.0.11",
   "description": "A library for scroll-related utils.",
   "main": "dist/cjs/index.js",
@@ -11,12 +11,16 @@
   "authors": [
     {
       "name": "Codingheads",
-      "email": "dev@codingheads.com",
+      "email": "dev@smartimpact-it.com",
       "url": "https://codingheads.com"
     },
     {
       "name": "Bogdan Barbu",
-      "email": "bogdan.b@codingheads.com"
+      "email": "bogdan.b@smartimpact-it.com"
+    },
+    {
+      "name": "Bogdan Barbu",
+      "email": "bbarbu@smartimpact.fr"
     }
   ],
   "license": "GPL-3",
@@ -41,7 +45,7 @@
     "build:types": "node tools/cleanup types && tsc -p config/tsconfig.types.json",
     "clean": "node tools/cleanup",
     "package": "npm run build && npm pack",
-    "addscope": "node tools/packagejson name @codingheads/scroll-utils",
+    "addscope": "node tools/packagejson name @smartimpact-it/scroll-utils",
     "postversion": "git push --follow-tags"
   },
   "publishConfig": {
@@ -57,7 +61,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Codingheads-Developer/scroll-utils.git"
+    "url": "git+https://github.com/siit-dev/scroll-utils.git"
   },
   "dependencies": {
     "lodash": "^4.17.21"
@@ -91,9 +95,9 @@
     "webpack-notifier": "^1.15.0"
   },
   "bugs": {
-    "url": "https://github.com/Codingheads-Developer/scroll-utils/issues"
+    "url": "https://github.com/siit-dev/scroll-utils/issues"
   },
-  "homepage": "https://github.com/Codingheads-Developer/scroll-utils",
+  "homepage": "https://github.com/siit-dev/scroll-utils",
   "jest": {
     "testEnvironment": "jsdom"
   }

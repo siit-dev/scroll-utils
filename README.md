@@ -7,7 +7,7 @@ This library contains multiple scroll-related utilities, very useful in websites
 This will put some classes on the `body` element depending on the scroll direction.
 
 ```javascript
-import { ScrollDirection } from '@codingheads/scroll-utils';
+import { ScrollDirection } from '@smartimpact-it/scroll-utils';
 
 window.addEventListener('DOMContentLoaded', () => {
   new ScrollDirection({
@@ -36,7 +36,7 @@ Events:
 This plugin will add some classes to the body depending on the scroll position: above or below the fold (the first "visible part" of the website).
 
 ```javascript
-import { ScrollPages } from '@codingheads/scroll-utils';
+import { ScrollPages } from '@smartimpact-it/scroll-utils';
 
 window.addEventListener('DOMContentLoaded', () => {
   new ScrollPages();
@@ -56,7 +56,7 @@ The plugin can also accept an `intersectionElement` if you want to provide yours
 This plugin monitors the size of specific UI elements (e.g. header elements) and creates CSS variables for their sizes. These are extremely useful when you have sticky headers and you need to adjust the `scroll-margin-top` property to take into account the sticky header.
 
 ```javascript
-import { ScrollOffsetPart, ScrollOffset } from '@codingheads/scroll-utils';
+import { ScrollOffsetPart, ScrollOffset } from '@smartimpact-it/scroll-utils';
 
 window.addEventListener('DOMContentLoaded', () => {
   const header = document.querySelector('.page-header'),
@@ -105,7 +105,7 @@ This is a function that allows you to scroll to an element using the correct `sc
 You can then force the correct scroll-margin-top when the `hash` of the page changes (when you click on an anchor):
 
 ```javascript
-import { scrollWithMarginTop, FixHashScrollPosition } from '@codingheads/scroll-utils';
+import { scrollWithMarginTop, FixHashScrollPosition } from '@smartimpact-it/scroll-utils';
 
 window.addEventListener('DOMContentLoaded', () => {
   // fix for scroll-margin-top
@@ -146,7 +146,7 @@ The `scrollWithMarginTop` function has 3 parameters:
 When accordions open while another accordion tab above is open, the result is that some part of the new tab may be hidden. To fix this, we need to fix the scroll. You can use the `BootstrapAccordionScrollIntoView` and `FoundationAccordionScrollIntoView` classes, which in turn use the `scrollWithMarginTop` function.
 
 ```javascript
-import { BootstrapAccordionScrollIntoView, FoundationAccordionScrollIntoView } from '@codingheads/scroll-utils';
+import { BootstrapAccordionScrollIntoView, FoundationAccordionScrollIntoView } from '@smartimpact-it/scroll-utils';
 
 window.addEventListener('DOMContentLoaded', () => {
   // for bootstrap accordion
