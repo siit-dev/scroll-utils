@@ -29,7 +29,7 @@ export class Bootstrap4AccordionScrollIntoView {
     const target = e.target as unknown as HTMLElement;
 
     // Skip scrolling if the clicked element or any of its parents has the class 'skip-scroll-into-view'.
-    if (target.closest('.skip-scroll-into-view')) {
+    if (target.closest?.('.skip-scroll-into-view, [data-skip-scroll-into-view]')) {
       return;
     }
 

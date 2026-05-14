@@ -19,7 +19,7 @@ export class FoundationAccordionScrollIntoView {
       const target = $content.get(0).parentNode;
 
       // Skip scrolling if the clicked element or any of its parents has the class 'skip-scroll-into-view'.
-      if (target.closest?.('.skip-scroll-into-view')) {
+      if (target.closest?.('.skip-scroll-into-view, [data-skip-scroll-into-view]')) {
         return;
       }
 
