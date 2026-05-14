@@ -4,24 +4,24 @@ import isFunction from 'lodash/isFunction';
 export type ScrollOffsetPartSettings = {
   name?: string;
   selectors?: string[];
-  elements?: HTMLElement[];
+  elements?: (HTMLElement | null | undefined)[];
   fixedHeight?: number | false;
   condition?: Function | false;
   resizeCondition?: Function | false;
 };
 
-export type ScrollOffsetVariable = {
+export type ScrollOffsetVariable<TPartName extends string = string> = {
   name: string;
-  offsetParts: Array<string | ScrollOffsetPart>;
+  offsetParts: Array<NoInfer<TPartName> | ScrollOffsetPart>;
 };
 
-export type ScrollOffsetMap = {
-  [key: string]: Array<string | ScrollOffsetPart>;
+export type ScrollOffsetMap<TPartName extends string = string> = {
+  [key: string]: Array<NoInfer<TPartName> | ScrollOffsetPart>;
 };
 
-export type ScrollOffsetSettings = {
-  offsetParts?: ScrollOffsetPart[] | ScrollOffsetPartSettings[];
-  variables?: ScrollOffsetVariable[] | ScrollOffsetMap;
+export type ScrollOffsetSettings<TPartName extends string = string> = {
+  offsetParts?: (ScrollOffsetPart | (Omit<ScrollOffsetPartSettings, 'name'> & { name?: TPartName }))[];
+  variables?: ScrollOffsetVariable<TPartName>[] | ScrollOffsetMap<TPartName>;
   extraEvents?: string[];
   registerForHoudini?: boolean;
   useResizeObserver?: boolean;
@@ -30,7 +30,7 @@ export type ScrollOffsetSettings = {
 export class ScrollOffsetPart {
   #name: string;
   #selectors: string[];
-  #elements: HTMLElement[];
+  #elements: (HTMLElement | null | undefined)[];
   #fixedHeight: number | false;
   #condition: Function | false;
   #resizeCondition: Function | false;
@@ -50,7 +50,7 @@ export class ScrollOffsetPart {
   }: ScrollOffsetPartSettings) {
     this.#name = name;
     this.#selectors = (selectors || []).filter(Boolean);
-    this.#elements = (elements || []).filter(Boolean);
+    this.#elements = elements || [];
     this.#fixedHeight = fixedHeight;
     this.#condition = condition;
     this.#resizeCondition = resizeCondition;
@@ -78,7 +78,7 @@ export class ScrollOffsetPart {
   }
 
   get elements(): HTMLElement[] {
-    return this.#elements;
+    return this.#elements.filter((el): el is HTMLElement => el != null);
   }
 
   setElementHeight = (element: HTMLElement, height: number) => {
@@ -86,7 +86,7 @@ export class ScrollOffsetPart {
     this.#heightCache.set(element, Math.round(height));
   };
 
-  #getElementHeight = (element: HTMLElement) => {
+  #getElementHeight = (element: HTMLElement | null | undefined) => {
     if (!element) return 0;
     const cachedHeight = this.#heightCache.get(element);
     if (cachedHeight !== undefined) return cachedHeight;
@@ -97,7 +97,7 @@ export class ScrollOffsetPart {
   };
 
   calculate = (): this => {
-    this.#isValid = !!this.#elements?.length;
+    this.#isValid = this.#elements?.some(el => el != null) ?? false;
     if (this.#isValid && this.#condition && isFunction(this.#condition)) {
       this.#isValid = this.#isValid && this.#condition();
     }
@@ -141,9 +141,9 @@ export class ScrollOffsetPart {
  * Author: Bogdan Barbu
  * Team: Codingheads (codingheads.com)
  */
-export class ScrollOffset {
+export class ScrollOffset<TPartName extends string = string> {
   #offsetParts: ScrollOffsetPart[];
-  #variables: ScrollOffsetVariable[];
+  #variables: ScrollOffsetVariable<TPartName>[];
   #extraEvents: string[];
   #registerForHoudini: boolean;
   #useResizeObserver: boolean;
@@ -158,7 +158,7 @@ export class ScrollOffset {
     registerForHoudini = true,
     useResizeObserver = true,
     extraEvents = [],
-  }: ScrollOffsetSettings = {}) {
+  }: ScrollOffsetSettings<TPartName> = {}) {
     // parse the variables
     if (Array.isArray(variables)) {
       this.#variables = variables;
