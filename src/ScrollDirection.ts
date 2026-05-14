@@ -67,9 +67,9 @@ export class ScrollDirection {
         this.#throttle,
         this.#throttleOptions || {}
       );
-      window.addEventListener('scroll', throttledUpdate);
+      window.addEventListener('scroll', throttledUpdate, { passive: true });
     } else {
-      window.addEventListener('scroll', update);
+      window.addEventListener('scroll', update, { passive: true });
     }
   }
 

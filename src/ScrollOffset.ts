@@ -38,6 +38,7 @@ export class ScrollOffsetPart {
   #resizeConditionValue: boolean;
   #totalHeight: number = 0;
   #isValid: boolean = false;
+  #heightCache = new WeakMap<HTMLElement, number>();
 
   constructor({
     name = '',
@@ -80,6 +81,21 @@ export class ScrollOffsetPart {
     return this.#elements;
   }
 
+  setElementHeight = (element: HTMLElement, height: number) => {
+    if (!element || !Number.isFinite(height) || height < 0) return;
+    this.#heightCache.set(element, Math.round(height));
+  };
+
+  #getElementHeight = (element: HTMLElement) => {
+    if (!element) return 0;
+    const cachedHeight = this.#heightCache.get(element);
+    if (cachedHeight !== undefined) return cachedHeight;
+
+    const measuredHeight = element.clientHeight || 0;
+    this.#heightCache.set(element, measuredHeight);
+    return measuredHeight;
+  };
+
   calculate = (): this => {
     this.#isValid = !!this.#elements?.length;
     if (this.#isValid && this.#condition && isFunction(this.#condition)) {
@@ -99,7 +115,7 @@ export class ScrollOffsetPart {
     } else {
       let totalHeight = 0;
       this.#elements.forEach(element => {
-        totalHeight += element ? element.clientHeight : 0;
+        totalHeight += this.#getElementHeight(element);
       });
       this.#totalHeight = totalHeight;
     }
@@ -131,6 +147,7 @@ export class ScrollOffset {
   #extraEvents: string[];
   #registerForHoudini: boolean;
   #useResizeObserver: boolean;
+  #measureScheduled: boolean = false;
 
   /**
    * setup the conditions
@@ -245,6 +262,16 @@ export class ScrollOffset {
   #debouncedCalculateOffset = debounce(this.#calculateOffset, 32);
   #debouncedCalculateResizeConditions = debounce(this.#calculateResizeConditions, 32);
 
+  #scheduleCalculateOffset = () => {
+    if (this.#measureScheduled) return;
+    this.#measureScheduled = true;
+
+    requestAnimationFrame(() => {
+      this.#measureScheduled = false;
+      this.#debouncedCalculateOffset();
+    });
+  };
+
   /**
    * setup event listeners
    */
@@ -260,11 +287,25 @@ export class ScrollOffset {
       'stickyIsPinned',
       'stickyIsUnpinned',
       ...this.#extraEvents,
-    ].forEach(type => window.addEventListener(type, this.#debouncedCalculateOffset));
+    ].forEach(type => window.addEventListener(type, this.#scheduleCalculateOffset));
 
     // setup resizeObservers for the elements
     if (this.#useResizeObserver) {
-      const resizeObserver = new ResizeObserver(this.#debouncedCalculateOffset);
+      const resizeObserver = new ResizeObserver(entries => {
+        entries.forEach(entry => {
+          const target = entry.target as HTMLElement;
+          const height = Math.round(entry.contentRect?.height || target?.clientHeight || 0);
+          if (!target || !height) return;
+
+          this.#offsetParts.forEach(part => {
+            if (part.elements.includes(target)) {
+              part.setElementHeight(target, height);
+            }
+          });
+        });
+
+        this.#scheduleCalculateOffset();
+      });
       this.#offsetParts.forEach(part =>
         part.elements.forEach(element => resizeObserver.observe(element))
       );
