@@ -24,7 +24,7 @@ export const onReadyState = (state: string | string[], callback: Function): void
  * @param {Function} callback - the callback to run
  */
 export const onComplete = (callback: Function): void =>
-  onReadyState(['complete', 'loaded'], callback);
+  onReadyState('complete', callback);
 
 /**
  * Run a callback when the document.readyState is 'interactive'
@@ -32,7 +32,7 @@ export const onComplete = (callback: Function): void =>
  * @param {Function} callback - the callback to run
  */
 export const onInteractive = (callback: Function): void =>
-  onReadyState('interactive', callback);
+  onReadyState(['interactive', 'complete'], callback);
 export const onReady = onInteractive;
 
 export default onReady;

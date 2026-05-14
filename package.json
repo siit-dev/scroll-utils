@@ -6,7 +6,7 @@
   "module": "dist/esm/index.js",
   "module:src": "src/index.js",
   "umd:main": "dist/umd/index.js",
-  "types": "dist/types/index.d.js",
+  "types": "dist/types/index.d.ts",
   "sideEffects": false,
   "authors": [
     {
